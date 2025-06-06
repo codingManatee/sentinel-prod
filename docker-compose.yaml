@@ -15,7 +15,7 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./backend
-    image: codingmanateees/sentinel-web-app:backend-1.0.1
+    image: codingmanateees/sentinel-web-app:backend-1.0.1-edgetpu
     volumes:
       - ./model:/app/model
     ports:
