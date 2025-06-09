@@ -3,4 +3,4 @@ api:
 
 streams:
   camera_0: rtsp://rtsp-server:8554/camera_0
-  input_0: rtsp://admin:tom123123123@94.247.62.214:3200/Streaming/Channels/101
+  # input_0: rtsp://admin:tom123123123@94.247.62.214:3200/Streaming/Channels/101
