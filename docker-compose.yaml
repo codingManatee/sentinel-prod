@@ -5,7 +5,7 @@ services:
     container_name: sentinel-frontend
     image: codingmanateees/sentinel-web-app:frontend-1.0.1
     volumes:
-      - ./database:/app/prisma/data
+      - sentinel-database:/app/prisma/data
     ports:
       - "3000:3000"
     environment:
@@ -17,10 +17,12 @@ services:
     image: codingmanateees/sentinel-web-app:backend-1.0.2-edgetpu
     volumes:
       - ./model:/app/model
+      - /dev/bus/usb:/dev/bus/usb
     ports:
       - "9002:9002"
     devices:
       - /dev/bus/usb:/dev/bus/usb
+    priviledged: true
     environment:
       TZ: Asia/Magadan
       NEXT_SERVER_URL: http://sentinel-frontend:3000/api
@@ -48,3 +50,6 @@ services:
     restart: unless-stopped
     environment:
       - MTX_RTSPTRANSPORTS=tcp
+
+volumes:
+  sentinel-database:
