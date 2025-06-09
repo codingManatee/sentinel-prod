@@ -1,5 +1,8 @@
 # Sentinel
 
+[![en](https://img.shields.io/badge/lang-en-blue.svg)](https://github.com/codingManatee/sentinel-web-app-prod/blob/main/README.md)
+[![ru](https://img.shields.io/badge/lang-ru-red.svg)](https://github.com/codingManatee/sentinel-web-app-prod/blob/main/README-RU.md)
+
 Sentinel is a real-time detection and logging platform developed for a gold mining company in Russia.  
 It is designed to track and log the volume of dirt processed by mining equipment and generate analytics for performance evaluation.
 
@@ -48,5 +51,5 @@ This license is governed by the laws of Thailand. Any disputes shall be resolved
 For enterprise licensing or integration support, please contact:
 
 **Pattapon Vichanukroh**  
-📧 [pattapon.vichanukroh@outlook.com].  
+📧 pattapon.vichanukroh@outlook.com.  
 📞 (+66) 88-678-2582
