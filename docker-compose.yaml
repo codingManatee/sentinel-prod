@@ -22,7 +22,7 @@ services:
       - "9002:9002"
     devices:
       - /dev/bus/usb:/dev/bus/usb
-    priviledged: true
+    privileged: true
     environment:
       TZ: Asia/Magadan
       NEXT_SERVER_URL: http://sentinel-frontend:3000/api
