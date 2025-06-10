@@ -3,9 +3,9 @@ version: "3.8"
 services:
   frontend:
     container_name: sentinel-frontend
-    image: codingmanateees/sentinel-web-app:frontend-1.0.1
+    image: codingmanateees/sentinel-web-app:demo-frontend
     volumes:
-      - sentinel-database:/app/prisma/data
+      - sentinel-database:/app/prisma/database
     ports:
       - "3000:3000"
     environment:
@@ -14,7 +14,7 @@ services:
 
   backend:
     container_name: sentinel-backend
-    image: codingmanateees/sentinel-web-app:backend-1.0.2-edgetpu
+    image: codingmanateees/sentinel-web-app:demo-backend
     volumes:
       - ./model:/app/model
       - /dev/bus/usb:/dev/bus/usb
@@ -26,7 +26,7 @@ services:
     environment:
       TZ: Asia/Magadan
       NEXT_SERVER_URL: http://sentinel-frontend:3000/api
-      CAMERA_URL_LIST: rtsp://admin:tom123123123@192.168.58.12:3200/Streaming/Channels/101.
+      CAMERA_URL_LIST: rtsp://admin:tom123123123@192.168.58.12:3200/Streaming/Channels/101
       RTSP_URL: rtsp://rtsp-server:8554
       FPS: 24
     depends_on:
