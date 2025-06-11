@@ -30,6 +30,7 @@ services:
       CAMERA_URL_LIST: ${CAMERA_URL_LIST}
       CONFIG_IMGSIZE: ${CONFIG_IMGSIZE}
       CONFIG_VERBOSE: ${CONFIG_VERBOSE}
+      NEXT_SERVER_URL: ${NEXT_SERVER_URL}
     depends_on:
       - rtsp-server
       - go2rtc
