@@ -13,7 +13,7 @@ services:
 
   backend:
     container_name: sentinel-backend
-    image: codingmanateees/sentinel-web-app:demo-backend
+    image: codingmanateees/sentinel-web-app:demo-backend-high
     volumes:
       - ./model:/app/model
       - /dev/bus/usb:/dev/bus/usb
