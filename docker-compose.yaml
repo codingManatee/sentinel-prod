@@ -3,7 +3,7 @@ version: "3.8"
 services:
   frontend:
     container_name: sentinel-frontend
-    image: codingmanateees/sentinel-web-app:demo-frontend
+    image: codingmanateees/sentinel-web-app:demo-frontend-v2
     volumes:
       - sentinel-database:/app/prisma/database
     ports:
