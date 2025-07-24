@@ -8,8 +8,8 @@ SERVICE_FILE="/etc/systemd/system/${SERVICE_NAME}.service"
 
 echo "📁 Using current directory for Docker Compose: $SCRIPT_DIR"
 
-if [ ! -f "$SCRIPT_DIR/docker-compose.yml" ]; then
-  echo "❌ Error: docker-compose.yml not found in $SCRIPT_DIR"
+if [ ! -f "$SCRIPT_DIR/docker-compose.yaml" ]; then
+  echo "❌ Error: docker-compose.yaml not found in $SCRIPT_DIR"
   exit 1
 fi
 
