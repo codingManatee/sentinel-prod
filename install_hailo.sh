@@ -33,6 +33,9 @@ sudo dpkg -i "$DRIVER_PKG" || sudo apt --fix-broken install -y
 echo "📦 Installing Hailo runtime: $RUNTIME_PKG"
 sudo dpkg -i "$RUNTIME_PKG" || sudo apt --fix-broken install -y
 
+echo "⚙️ Setting Hailo PCIe driver options..."
+echo "options hailo_pci force_desc_page_size=256" | sudo tee /etc/modprobe.d/hailo_pci.conf
+
 echo "🔁 Reloading hailo_pci kernel module..."
 sudo modprobe -r hailo_pci || true
 sudo modprobe hailo_pci
@@ -54,3 +57,4 @@ else
     echo "❌ hailortcli command not found. Check if the runtime installed correctly."
     exit 1
 fi
+
