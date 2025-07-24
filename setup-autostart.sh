@@ -22,6 +22,7 @@ Requires=docker.service
 After=docker.service
 
 [Service]
+User=admin
 Type=oneshot
 WorkingDirectory=${SCRIPT_DIR}
 ExecStart=/usr/bin/docker compose up -d
