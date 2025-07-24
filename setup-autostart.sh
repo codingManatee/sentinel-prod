@@ -3,7 +3,7 @@
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SERVICE_NAME="docker-compose-local-app"
+SERVICE_NAME="docker-compose-sentinel-web-app"
 SERVICE_FILE="/etc/systemd/system/${SERVICE_NAME}.service"
 
 echo "📁 Using current directory for Docker Compose: $SCRIPT_DIR"
