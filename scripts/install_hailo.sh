@@ -2,30 +2,20 @@
 
 set -e
 
-DRIVER_PKG="hailort-pcie-driver_4.21.0_all.deb"
-RUNTIME_PKG="hailort_4.21.0_arm64.deb"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DRIVER_PKG="$SCRIPT_DIR/../resources/drivers/hailort-pcie-driver_4.21.0_all.deb"
+RUNTIME_PKG="$SCRIPT_DIR/../resources/drivers/hailort_4.21.0_arm64.deb"
 
 echo "🔍 Updating package lists and installing prerequisites..."
 sudo apt-get update
 sudo apt-get install -y dkms linux-headers-$(uname -r) build-essential \
     ca-certificates curl gnupg lsb-release
 
-echo "🐳 Setting up Docker apt repository and installing Docker..."
-
-sudo install -m 0755 -d /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/raspbian/gpg | sudo tee /etc/apt/keyrings/docker.asc > /dev/null
-sudo chmod a+r /etc/apt/keyrings/docker.asc
-
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/raspbian \
-  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-
-sudo apt-get update
-
-sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-
-echo "✅ Docker installation complete."
+# Optional check
+if ! command -v docker &> /dev/null; then
+    echo "⚠️ Docker is not installed. Run scripts/install_docker.sh first."
+    exit 1
+fi
 
 echo "📦 Installing Hailo PCIe driver: $DRIVER_PKG"
 sudo dpkg -i "$DRIVER_PKG" || sudo apt --fix-broken install -y
@@ -57,4 +47,3 @@ else
     echo "❌ hailortcli command not found. Check if the runtime installed correctly."
     exit 1
 fi
-

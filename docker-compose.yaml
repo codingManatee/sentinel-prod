@@ -15,7 +15,7 @@ services:
     container_name: sentinel-backend
     image: codingmanateees/sentinel-web-app:backend-base
     volumes:
-      - ./model:/app/model
+      - ./resources/models:/app/model
     ports:
       - "9002:9002"
     devices:
@@ -30,7 +30,7 @@ services:
       CAMERA_URL_LIST: ${CAMERA_URL_LIST}
       CONFIG_IMGSIZE: ${CONFIG_IMGSIZE}
       CONFIG_VERBOSE: ${CONFIG_VERBOSE}
-      NEXT_SERVER_URL: ${NEXT_SERVER_URL}
+      NEXT_SERVER_URL: http://sentinel-frontend:3000/api
     depends_on:
       - rtsp-server
       - go2rtc
