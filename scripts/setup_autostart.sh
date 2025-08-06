@@ -3,13 +3,15 @@
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+
 SERVICE_NAME="docker-compose-sentinel-web-app"
 SERVICE_FILE="/etc/systemd/system/${SERVICE_NAME}.service"
 
-echo "📁 Using current directory for Docker Compose: $SCRIPT_DIR"
+echo "📁 Using project root for Docker Compose: $PROJECT_ROOT"
 
-if [ ! -f "$SCRIPT_DIR/docker-compose.yaml" ]; then
-  echo "❌ Error: docker-compose.yaml not found in $SCRIPT_DIR"
+if [ ! -f "$PROJECT_ROOT/docker-compose.yaml" ]; then
+  echo "❌ Error: docker-compose.yaml not found in $PROJECT_ROOT"
   exit 1
 fi
 
@@ -17,17 +19,17 @@ echo "🛠️ Creating systemd service file: $SERVICE_FILE"
 
 sudo tee "$SERVICE_FILE" > /dev/null <<EOF
 [Unit]
-Description=Local Docker Compose App Service
+Description=Sentinel Web App Docker Compose Service
 Requires=docker.service
 After=docker.service
 
 [Service]
 User=admin
-Type=oneshot
-WorkingDirectory=${SCRIPT_DIR}
+WorkingDirectory=${PROJECT_ROOT}
 ExecStart=/usr/bin/docker compose up -d
 ExecStop=/usr/bin/docker compose down
 RemainAfterExit=yes
+Type=oneshot
 
 [Install]
 WantedBy=multi-user.target
