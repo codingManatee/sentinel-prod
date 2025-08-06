@@ -8,6 +8,8 @@ PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 SERVICE_NAME="docker-compose-sentinel-web-app"
 SERVICE_FILE="/etc/systemd/system/${SERVICE_NAME}.service"
 
+USER_NAME=$(whoami)
+
 echo "📁 Using project root for Docker Compose: $PROJECT_ROOT"
 
 if [ ! -f "$PROJECT_ROOT/docker-compose.yaml" ]; then
@@ -24,7 +26,7 @@ Requires=docker.service
 After=docker.service
 
 [Service]
-User=admin
+User=$USER_NAME
 WorkingDirectory=${PROJECT_ROOT}
 ExecStart=/usr/bin/docker compose up -d
 ExecStop=/usr/bin/docker compose down
