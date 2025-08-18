@@ -1,25 +1,25 @@
 version: "3.8"
 
 services:
-  frontend:
-    container_name: sentinel-frontend
-    image: codingmanateees/sentinel-web-app:frontend
-    volumes:
-      - sentinel-database:/app/prisma/database
+  web-app:
+    container_name: web-app
+    image: codingmanateees/sentinel-web-app:web-app
     ports:
       - "3000:3000"
     environment:
       TZ: ${TZ}
 
-  backend:
-    container_name: sentinel-backend
-    image: codingmanateees/sentinel-web-app:backend
+  core-api:
+    container_name: core-api
+    image: codingmanateees/sentinel-web-app:core-api
+
+  detection-api:
+    container_name: detection-api
+    image: codingmanateees/sentinel-web-app:detection-api
     volumes:
       - ./resources/models:/app/model
       # Blueooth access
       - /var/run/dbus/:/var/run/dbus/:z
-    ports:
-      - "9002:9002"
     devices:
       - /dev/bus/usb:/dev/bus/usb
       - /dev/hailo0:/dev/hailo0
@@ -32,9 +32,7 @@ services:
       CAMERA_URL_LIST: ${CAMERA_URL_LIST}
       CONFIG_IMGSIZE: ${CONFIG_IMGSIZE}
       CONFIG_VERBOSE: ${CONFIG_VERBOSE}
-      NEXT_SERVER_URL: http://sentinel-frontend:3000/api
     depends_on:
-      - rtsp-server
       - go2rtc
 
   go2rtc:
@@ -43,17 +41,6 @@ services:
     restart: unless-stopped
     volumes:
       - ./go2rtc.config.yaml:/config/go2rtc.yaml
-    ports:
-      - "1984:1984"
-      - "8554:8554"
-      - "8555:8555"
-
-  rtsp-server:
-    container_name: rtsp-server
-    image: bluenviron/mediamtx:latest
-    restart: unless-stopped
-    environment:
-      - MTX_RTSPTRANSPORTS=tcp
 
 volumes:
   sentinel-database:
