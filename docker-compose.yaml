@@ -3,7 +3,7 @@ version: "3.8"
 services:
   web-app:
     container_name: web-app
-    image: codingmanateees/sentinel-web-app:web-app
+    image: codingmanateees/sentinel:web-app
     ports:
       - "3000:3000"
     environment:
@@ -11,11 +11,11 @@ services:
 
   core-api:
     container_name: core-api
-    image: codingmanateees/sentinel-web-app:core-api
+    image: codingmanateees/sentinel:core-api
 
   detection-api:
     container_name: detection-api
-    image: codingmanateees/sentinel-web-app:detection-api
+    image: codingmanateees/sentinel:detection-api
     volumes:
       - ./resources/models:/app/model
       # Blueooth access
