@@ -1,4 +1,13 @@
+name: sentinel
 version: "3.8"
+
+x-common-env: &common-env
+  TZ: ${TZ}
+  NODE_ENV: ${NODE_ENV}
+  CORS_WHITELIST: ${CORS_WHITELIST}
+  NEXT_PUBLIC_CORE_API_URL: ${CORE_API_URL}
+  NEXT_PUBLIC_DETECTION_API_URL: ${DETECTION_API_URL}
+  NEXT_PUBLIC_VIDEO_API_URL: ${VIDEO_API_URL}
 
 services:
   web-app:
@@ -7,10 +16,12 @@ services:
     ports:
       - "3000:3000"
     environment:
-      TZ: ${TZ}
+      <<: *common-env
 
   core-api:
     container_name: core-api
+    environment:
+      <<: *common-env
     image: codingmanateees/sentinel:core-api
 
   detection-api:
@@ -25,9 +36,8 @@ services:
       - /dev/hailo0:/dev/hailo0
     privileged: true
     environment:
-      TZ: ${TZ}
-      FPS: ${FPS}
-      NODE_ENV: production
+      <<: *common-env
+      FPS: 24
       MODEL_NAME: ${MODEL_NAME}
       CAMERA_URL_LIST: ${CAMERA_URL_LIST}
       CONFIG_IMGSIZE: ${CONFIG_IMGSIZE}

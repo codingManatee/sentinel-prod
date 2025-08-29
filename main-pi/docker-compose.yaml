@@ -1,0 +1,20 @@
+version: "3.9"
+name: sentinel-main-pi
+
+services:
+  mqtt:
+    image: eclipse-mosquitto:latest
+    container_name: mqtt
+    restart: unless-stopped
+    ports:
+      - "1883:1883" # MQTT
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+
+  bunker-api:
+    container_name: bunker-api
+    image: codingmanateees/sentinel:bunker-api
+    depends_on:
+      - mqtt
