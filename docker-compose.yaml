@@ -4,27 +4,24 @@ version: "3.8"
 x-common-env: &common-env
   TZ: ${TZ}
   NODE_ENV: ${NODE_ENV}
-  CORS_WHITELIST: ${CORS_WHITELIST}
-  NEXT_PUBLIC_CORE_API_URL: ${CORE_API_URL}
-  NEXT_PUBLIC_DETECTION_API_URL: ${DETECTION_API_URL}
-  NEXT_PUBLIC_VIDEO_API_URL: ${VIDEO_API_URL}
 
 services:
   web-app:
+    profiles: ["detection"]
     container_name: web-app
     image: codingmanateees/sentinel:web-app
-    ports:
-      - "3000:3000"
     environment:
       <<: *common-env
 
   core-api:
+    profiles: ["detection"]
     container_name: core-api
     environment:
       <<: *common-env
     image: codingmanateees/sentinel:core-api
 
   detection-api:
+    profiles: ["detection"]
     container_name: detection-api
     image: codingmanateees/sentinel:detection-api
     volumes:
@@ -46,11 +43,47 @@ services:
       - go2rtc
 
   go2rtc:
+    profiles: ["detection"]
     image: alexxit/go2rtc:latest
     container_name: go2rtc
     restart: unless-stopped
     volumes:
-      - ./go2rtc.config.yaml:/config/go2rtc.yaml
+      - ./infra/go2rtc/go2rtc.config.yaml:/config/go2rtc.yaml
+
+  nginx:
+    profiles: ["detection"]
+    image: nginx:latest
+    container_name: reverse-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - ./infra/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - web-app
+      - core-api
+      - detection-api
+      - go2rtc
+
+  mqtt:
+    profiles: ["main"]
+    image: eclipse-mosquitto:latest
+    container_name: mqtt
+    restart: unless-stopped
+    ports:
+      - "1883:1883"
+    volumes:
+      - ./infra/mosquitto/config:/mosquitto/config
+      - ./infra/mosquitto/data:/mosquitto/data
+      - ./infra/mosquitto/log:/mosquitto/log
+
+  bunker-api:
+    profiles: ["main"]
+    container_name: bunker-api
+    image: codingmanateees/sentinel:bunker-api
+    environment:
+      MQTT_URL: ${MQTT_URL}
+    depends_on:
+      - mqtt
 
 volumes:
   sentinel-database:
