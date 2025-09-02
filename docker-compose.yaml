@@ -18,6 +18,7 @@ services:
     container_name: core-api
     environment:
       <<: *common-env
+      MQTT_URL: ${MQTT_URL}
     image: codingmanateees/sentinel:core-api
 
   detection-api:
@@ -46,6 +47,8 @@ services:
     profiles: ["detection"]
     image: alexxit/go2rtc:latest
     container_name: go2rtc
+    ports:
+      -  "1884:1884"
     restart: unless-stopped
     volumes:
       - ./infra/go2rtc/go2rtc.config.yaml:/config/go2rtc.yaml
