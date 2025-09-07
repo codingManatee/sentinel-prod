@@ -6,6 +6,7 @@ x-common-env: &common-env
   NODE_ENV: ${NODE_ENV}
 
 services:
+  # ---------- DETECTION PI ----------
   web-app:
     profiles: ["detection"]
     container_name: web-app
@@ -53,6 +54,18 @@ services:
     volumes:
       - ./infra/go2rtc/go2rtc.config.yaml:/config/go2rtc.yaml
 
+  minio:
+    profiles: ["detection"]
+    container_name: storage
+    image: minio/minio:latest
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY}
+    volumes:
+      - ./infra/minio/data:/data
+    entrypoint: "minio server --address :7001 --console-address :7000 /data"
+    restart: always
+
   nginx:
     profiles: ["detection"]
     image: nginx:latest
@@ -65,8 +78,10 @@ services:
       - web-app
       - core-api
       - detection-api
+      - storage
       - go2rtc
 
+  # ---------- MAIN PI ----------
   mqtt:
     profiles: ["main"]
     image: eclipse-mosquitto:latest
