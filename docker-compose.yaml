@@ -48,7 +48,7 @@ services:
     image: alexxit/go2rtc:latest
     container_name: go2rtc
     ports:
-      -  "1884:1884"
+      - "1884:1884"
     restart: unless-stopped
     volumes:
       - ./infra/go2rtc/go2rtc.config.yaml:/config/go2rtc.yaml
@@ -84,7 +84,7 @@ services:
     container_name: bunker-api
     image: codingmanateees/sentinel:bunker-api
     environment:
-      MQTT_URL: ${MQTT_URL}
+      MQTT_URL: mqtt://mqtt:1883
     depends_on:
       - mqtt
 
