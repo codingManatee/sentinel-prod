@@ -54,7 +54,7 @@ services:
     volumes:
       - ./infra/go2rtc/go2rtc.config.yaml:/config/go2rtc.yaml
 
-  minio:
+  storage:
     profiles: ["detection"]
     container_name: storage
     image: minio/minio:latest
