@@ -5,7 +5,7 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
-SERVICE_NAME="docker-compose-sentinel-web-app"
+SERVICE_NAME="sentinel-app"
 SERVICE_FILE="/etc/systemd/system/${SERVICE_NAME}.service"
 
 USER_NAME=$(whoami)
@@ -28,7 +28,7 @@ After=docker.service
 [Service]
 User=$USER_NAME
 WorkingDirectory=${PROJECT_ROOT}
-ExecStart=/usr/bin/docker compose up -d
+ExecStart=/usr/bin/docker compose --profile main up -d
 ExecStop=/usr/bin/docker compose down
 RemainAfterExit=yes
 Type=oneshot
