@@ -4,6 +4,7 @@ version: "3.8"
 x-common-env: &common-env
   TZ: ${TZ}
   NODE_ENV: ${NODE_ENV}
+  HOST_IP: ${HOST_IP}
 
 services:
   # ---------- DETECTION PI ----------
