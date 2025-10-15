@@ -1,11 +1,15 @@
 #!/bin/bash
 
-# Get the host IP from en0 (Mac network interface)
-HOST_IP=$(ipconfig getifaddr en0)
+# Detect host IP (works on macOS and Raspberry Pi)
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  HOST_IP=$(ipconfig getifaddr en0)
+else
+  HOST_IP=$(hostname -I | awk '{print $1}')
+fi
 
 # Check if we actually got an IP
 if [ -z "$HOST_IP" ]; then
-  echo "❌ Could not determine host IP from en0. Make sure you're connected to a network."
+  echo "❌ Could not determine host IP. Make sure you're connected to a network."
   exit 1
 fi
 
