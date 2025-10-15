@@ -13,6 +13,9 @@ if [ -z "$HOST_IP" ]; then
   exit 1
 fi
 
+# Move to project root (where docker-compose.yml is)
+cd "$(dirname "$0")/.." || exit
+
 # Read the first argument (e.g., detection, main, or none)
 PROFILE=$1
 
@@ -21,16 +24,16 @@ echo "🌐 Using HOST_IP: $HOST_IP"
 case "$PROFILE" in
   detection)
     echo "🚀 Starting Detection profile..."
-    docker compose --profile detection up -d --env "HOST_IP=$HOST_IP"
+    HOST_IP=$HOST_IP docker compose --profile detection up -d
     ;;
   main)
     echo "🚀 Starting Main profile..."
-    docker compose --profile main up -d --env "HOST_IP=$HOST_IP"
+    HOST_IP=$HOST_IP docker compose --profile main up -d
     ;;
   *)
     echo "🚀 Starting both Detection and Main profiles..."
-    docker compose --profile detection up -d --env "HOST_IP=$HOST_IP"
-    docker compose --profile main up -d --env "HOST_IP=$HOST_IP"
+    HOST_IP=$HOST_IP docker compose --profile detection up -d
+    HOST_IP=$HOST_IP docker compose --profile main up -d
     ;;
 esac
 

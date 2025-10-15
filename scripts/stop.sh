@@ -1,6 +1,8 @@
 #!/bin/bash
 
-# Read the first argument (e.g., detection, main, or none)
+# Move to project root (where docker-compose.yml is)
+cd "$(dirname "$0")/.." || exit
+
 PROFILE=$1
 
 case "$PROFILE" in
@@ -13,7 +15,7 @@ case "$PROFILE" in
     docker compose --profile main down
     ;;
   *)
-    echo "🛑 Stopping all profiles (Detection + Main)..."
+    echo "🛑 Stopping all profiles..."
     docker compose --profile detection down
     docker compose --profile main down
     ;;
